@@ -3,18 +3,24 @@ import time
 import sys
 import getpass
 import hashlib
-import passfile as logpass
+import passfile as logpass #не забываем, что хотели это все шифрануть еще
+import configparser
 
+
+#тянем из конфига
+config = configparser.ConfigParser()
+config.read('config.ini', encoding='utf-8-sig')
+maxerr = int(config.get('Setup','maxerr')) #Количество неудачных попыток до блокировки
+t2 = int(config.get('Setup','blocktime')) #время блокировки
 
 exit =0
 while exit == 0:
-   
+
     #init
-    maxerr = 3 #Количество неудачных попыток до блокировки
-    t2=10 #время блокировки
     login = 0
     err=0
     t1=0
+
     while login == 0:
         if err < maxerr:
             os.system('cls')
@@ -30,12 +36,12 @@ while exit == 0:
                     login = 1
                 else:
                     print()
-                    print('Неверный пароль ')
+                    print('Неверный логин или пароль ')
                     time.sleep(1)
                     err+=1
             except KeyError:
                 print()
-                print('Неверный логин') 
+                print('Неверный логин или пароль') 
                 time.sleep(2)
                 err+=1
 
